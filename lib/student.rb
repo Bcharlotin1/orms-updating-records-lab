@@ -43,7 +43,7 @@ class Student
     end
   end
 
-  def self.create(name:, grade:)
+  def self.create(name, grade)
      #returns a  new instance
     student = Student.new(name, grade)
     student.save
@@ -53,10 +53,8 @@ class Student
   def self.new_from_db(row)
     # create a new Student object given a row from the database,
     #returns an array
-    new_student = self.new
-    new_student.id = row[0]
-    new_student.name = row[1]
-    new_student.grade = row[2]
+    new_student = self.new(row[1],row[2],row[0])
+   
     new_student
   end
 
@@ -67,7 +65,7 @@ class Student
               SELECT *
               FROM students
               WHERE name = ?
-              LIMIT 1
+        
           SQL
     DB[:conn].execute(sql,name).map do |row|
           self.new_from_db(row)
